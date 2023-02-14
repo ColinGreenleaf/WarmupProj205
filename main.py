@@ -15,35 +15,11 @@ DANCE_FUNC = 6
 LOUD_FUNC = 7
 
 
-def getAllSongsFromArtist(artist):
-    # Connecting to database
-    conn = sqlite3.connect('topRecords.db')
-    c = conn.cursor()
-    # Returning all values from a table
-    print("\nAll " + artist + " songs:\n")
-    songs = c.execute("SELECT * FROM Songs WHERE artistFpk = ?", (artist,))
-    songs = c.fetchall()
-    # print each song with no brackets
-    for i in songs:
-        print(str(i).replace(")", "").replace("(", ""))
-    # Closing connection
-    if c is not None:
-        c.close()
-    if conn is not None:
-        conn.close()
-
-
-### Utility Functions ###
-
-# cleans up the print statements
-def cleanPrint(value):
-    returnVal = str(value).replace(")", "").replace("(", "").replace("[", "").replace("]", "").replace("'", "")
-    return returnVal
-
-
 ### Single-Table Queries ###
 
-# gets one element of data from a song, denoted by the function parameter
+# gets one element of data from a song
+# param songName: the name of the song
+# param function: the index of the data to be returned
 def getDataOfSong(songName, function):
     # Connecting to database
     conn = sqlite3.connect('topRecords.db')
@@ -61,7 +37,10 @@ def getDataOfSong(songName, function):
 
     return data
 
-# gets one element of data from an artist, denoted by the function parameter
+
+# gets one element of data from an artist
+# param artistName: the name of the artist
+# param function: the index of the data to be returned
 def getDataOfArtist(artistName, function):
     # Connecting to database
     conn = sqlite3.connect('topRecords.db')
@@ -80,23 +59,38 @@ def getDataOfArtist(artistName, function):
 
     return data
 
+
+# gets all the songs from an artist
+# param artist: the name of the artist
+# returns a list of all the songs from the artist
+def getAllSongsFromArtist(artist):
+    # Connecting to database
+    conn = sqlite3.connect('topRecords.db')
+    c = conn.cursor()
+    # Returning all values from a table
+    songs = c.execute("SELECT * FROM Songs WHERE artistFpk = ?", (artist,))
+    songs = c.fetchall()
+
+    # Closing connection
+    if c is not None:
+        c.close()
+    if conn is not None:
+        conn.close()
+
+    return songs
+
+
 # gets all the information of a song
+# param songName: the name of the song
+# returns a list of the song's information
 def getSong(songName):
     # Connecting to database
     conn = sqlite3.connect('topRecords.db')
     c = conn.cursor()
 
     # Returning information from the artist table
-    print("\nAll of the information on the song " + songName + ":\n")
     song = c.execute("SELECT * FROM Songs WHERE songNameTxt == ?", (songName,))
     song = c.fetchall()
-
-    # Separating the values into a list and outputting
-    songList = str(song).split(",")
-    print("#" + cleanPrint(songList[0]) + "." + cleanPrint(songList[2]) + ", by " + cleanPrint(songList[1]))
-    print("Genre:" + cleanPrint(songList[3]) + ". Released in" + cleanPrint(songList[4]))
-    print("Energy:" + cleanPrint(
-        songList[6] + " --- Danceability:" + cleanPrint(songList[7])) + " --- Loudness: " + cleanPrint(songList[7]))
 
     # Closing connection
     if c is not None:
@@ -104,56 +98,34 @@ def getSong(songName):
     if conn is not None:
         conn.close()
 
+    return song
+
 
 # gets all the information of an artist
+# param artistName: the name of the artist
+# returns a list of the artist's information
 def getArtist(artistName):
     # Connecting to database
     conn = sqlite3.connect('topRecords.db')
     c = conn.cursor()
 
     # Returning information from the artist table
-    print("\nAll of the information on " + artistName + ":\n")
     artist = c.execute("SELECT * FROM Artists WHERE artistFpk == ?", (artistName,))
     artist = c.fetchall()
 
-    # Separating the values into a list and outputting
-    artistList = str(artist).split(",")
-    print("#" + cleanPrint(artistList[0]) + "." + cleanPrint(artistList[1]))
-    print("From" + cleanPrint(artistList[2]) + " with" + cleanPrint(artistList[4]) + " listeners.")
-    print("Tags:" + cleanPrint(artistList[3] + " --- Ambiguous:" + cleanPrint(artistList[5])))
-
     # Closing connection
     if c is not None:
         c.close()
     if conn is not None:
         conn.close()
 
-# gets all the songs of an artist
-def getArtistsLibrary(singerName):
-    # Connecting to database
-    conn = sqlite3.connect('topRecords.db')
-    c = conn.cursor()
-
-    # Returning all song names for an artist
-    print("\nAll songs on file for " + singerName + ":\n")
-    library = c.execute("SELECT idPk, songNameTxt FROM Songs WHERE artistFpk == ?", (singerName,))
-    library = c.fetchall()
-
-    # Outputting the values found that match
-    for element in library:
-        elementPrint = str(element).split(",")
-        print("#" + cleanPrint(elementPrint[0]) + "." + cleanPrint(elementPrint[1]))
-
-    # Closing connection
-    if c is not None:
-        c.close()
-    if conn is not None:
-        conn.close()
+    return artist
 
 
 ### Metadata Queries ###
 
-# gets the number of artists in the database
+# method to get the number of artists in the database
+# returns an int of the number of artists
 def getAllArtists():
     # Connecting to database
     conn = sqlite3.connect('topRecords.db')
@@ -176,7 +148,8 @@ def getAllArtists():
     return artistNum
 
 
-# gets the number of songs in the database
+# method to get the number of songs in the database
+# returns an int of the number of songs
 def getAllSongs():
     # Connecting to database
     conn = sqlite3.connect('topRecords.db')
@@ -210,6 +183,7 @@ def main():
     # the result of getDataOfSong(testsong, ARTIST_FUNC) is used as the parameter for getDataOfArtist
     print("Artist Country: " + getDataOfArtist(getDataOfSong(testsong, ARTIST_FUNC), COUNTRY_FUNC))
     print("Artist Listeners: " + str(getDataOfArtist(getDataOfSong(testsong, ARTIST_FUNC), LISTENERS_FUNC)))
+
 
 if __name__ == "__main__":
     main()
