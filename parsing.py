@@ -69,34 +69,36 @@ def songSearch(query):
     # Calling all of the "easy" functions for song
     nextField = fieldsToSearch.pop()
 
-    if nextField == "title":
-        title = db.getDataOfSong(songName, TITLE_FUNC)
-    elif nextField == "genre":
-        db.getDataOfSong(songName, GENRE_FUNC)
-    elif nextField == "year":
-        print(songName)
-        db.getDataOfSong(songName, YEAR_FUNC)
-    elif nextField == "energy":
-        db.getDataOfSong(songName, ENERGY_FUNC)
-    elif nextField == "dance":
-        db.getDataOfSong(songName, DANCE_FUNC)
-    elif nextField == "loudness":
-        db.getDataOfSong(songName, LOUD_FUNC)
+    try:
+        if nextField == "title":
+            title = db.getDataOfSong(songName, TITLE_FUNC)
+        elif nextField == "genre":
+            db.getDataOfSong(songName, GENRE_FUNC)
+        elif nextField == "year":
+            print("The year of the song " + songName + " is: " + str(db.getDataOfSong(songName, YEAR_FUNC)))
+        elif nextField == "energy":
+            db.getDataOfSong(songName, ENERGY_FUNC)
+        elif nextField == "dance":
+            db.getDataOfSong(songName, DANCE_FUNC)
+        elif nextField == "loudness":
+            db.getDataOfSong(songName, LOUD_FUNC)
 
 
-    elif nextField == "artist":
-        if len(fieldsToSearch) == 0:
-            db.getDataOfSong(songName, ARTIST_FUNC)
+        elif nextField == "artist":
+            if len(fieldsToSearch) == 0:
+                db.getDataOfSong(songName, ARTIST_FUNC)
+            else:
+                newQuery = []
+                for item in fieldsToSearch:
+                    newQuery.append(item)
+                newQuery.append("artist")
+                newQuery.append("\"" + db.getDataOfSong(songName, ARTIST_FUNC) + "\"")
+                artistSearch(newQuery)
         else:
-            newQuery = []
-            for item in fieldsToSearch:
-                newQuery.append(item)
-            newQuery.append("artist")
-            newQuery.append("\"" + db.getDataOfSong(songName, ARTIST_FUNC) + "\"")
-            artistSearch(newQuery)
-    else:
-        print("The field " + nextField + " does not exist for songs, it must be an artist field")
+            print("The field " + nextField + " is an artist field. It does not exist for songs.")
 
+    except:
+        print("Song not found")
 
 def artistSearch(query):
     queryLength = len(query)
@@ -116,13 +118,13 @@ def artistSearch(query):
     nextField = fieldsToSearch.pop()
 
     if nextField == "country":
-        db.getDataOfArtist(artistName, 2)
+        print(db.getDataOfArtist(artistName, COUNTRY_FUNC))
     elif nextField == "tag":
-        db.getDataOfArtist(artistName, 3)
+        print(db.getDataOfArtist(artistName, TAGS_FUNC))
     elif nextField == "listeners":
-        db.getDataOfArtist(artistName, 4)
+        print(db.getDataOfArtist(artistName, LISTENERS_FUNC))
     else:
-        print("The field " + nextField + " does not exist for artists, it must be a song field")
+        print("The field " + nextField + " is a song field. It does not exist for artists.")
 
 
 
@@ -134,18 +136,14 @@ def main():
     print("Remember, names must have dashes instead of spaces")
     query = input("Query Here: ")
     
-    # Splitting the query into a list and changing to lowercase
+    # Splitting the query into a list
     queryAsList = query.split(" ")    
     queryLength = len(queryAsList)
-    for i in range(len(queryAsList)):
-        queryAsList[i] = queryAsList[i].lower()
 
     # Checking if all of the terms in query are valid. If not, take another query
     while not validQuery(queryAsList):
         query = input("Query Here: ")
         queryAsList = query.split(" ")
-        for i in range(len(queryAsList)):
-            queryAsList[i] = queryAsList[i].lower()
 
     # Determining what kind of query and running appropriate function
     if queryAsList[queryLength - 2] == "song":
