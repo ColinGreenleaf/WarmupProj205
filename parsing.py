@@ -86,7 +86,7 @@ def songSearch(query):
 
         elif nextField == "artist":
             if len(fieldsToSearch) == 0:
-                db.getDataOfSong(songName, ARTIST_FUNC)
+                print("the name of the artist of \"" + songName + "\" is: " + db.getDataOfSong(songName, ARTIST_FUNC))
             else:
                 newQuery = []
                 for item in fieldsToSearch:
