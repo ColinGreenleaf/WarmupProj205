@@ -168,3 +168,4 @@ def getAllSongs():
     if conn is not None:
         conn.close()
     # Returning the n
+    return songNum

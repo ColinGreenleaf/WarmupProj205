@@ -104,6 +104,7 @@ def songSearch(query):
 def artistSearch(query):
     queryLength = len(query)
 
+
     # Getting artist name and cleaning up
     artistName = query[queryLength - 1]
     artistName = artistName.replace("\"", "")
@@ -136,16 +137,25 @@ def makeQuery(query):
     queryAsList = query.split(" ")    
     queryLength = len(queryAsList)
 
-    # Checking if all of the terms in query are valid. If not, take another query
-    while not validQuery(queryAsList):
-        query = input("Query Here: ")
-        queryAsList = query.split(" ")
+    if query == "metadata songs":
+        print(db.getAllSongs())
+    elif query == "metadata artists":
+        print(db.getAllArtists())
+    else:
+        # Checking if all of the terms in query are valid. If not, take another query
+        while not validQuery(queryAsList):
+            if query == "metadata songs":
+                print(db.getAllSongs())
+            elif query == "metadata artists":
+                print(db.getAllArtists())
+            query = input("Query Here: ")
+            queryAsList = query.split(" ")
 
-    # Determining what kind of query and running appropriate function
-    if queryAsList[queryLength - 2] == "song":
-        songSearch(queryAsList)
-    elif queryAsList[queryLength - 2] == "artist":
-        artistSearch(queryAsList)
+        # Determining what kind of query and running appropriate function
+        if queryAsList[queryLength - 2] == "song":
+            songSearch(queryAsList)
+        elif queryAsList[queryLength - 2] == "artist":
+            artistSearch(queryAsList)
     
 def main():
     # Start sequence asking for user input
