@@ -197,8 +197,6 @@ def main():
             break
         makeQuery(queryToMake)
 
-main()
-# def testing():
-#     makeQuery("loudness song \"The Real Slim Shady\"")
-#
-# testing()
+
+if __name__ == "__main__":
+    main()
