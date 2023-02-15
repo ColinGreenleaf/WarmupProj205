@@ -1,3 +1,5 @@
+import shlex
+
 import db as db
 # These constants represent the different "functions" which can be passed into some of the 
 # getData functions in order to get a specific field of an artist or song.
@@ -134,7 +136,7 @@ def artistSearch(query):
 
 def makeQuery(query):
     # Splitting the query into a list
-    queryAsList = query.split(" ")    
+    queryAsList = shlex.split(query, posix=False)
     queryLength = len(queryAsList)
 
     if query == "metadata songs":
@@ -149,7 +151,7 @@ def makeQuery(query):
             elif query == "metadata artists":
                 print(db.getAllArtists())
             query = input("Query Here: ")
-            queryAsList = query.split(" ")
+            queryAsList = shlex.split(query, posix=False)
 
         # Determining what kind of query and running appropriate function
         if queryAsList[queryLength - 2] == "song":
@@ -160,7 +162,6 @@ def makeQuery(query):
 def main():
     # Start sequence asking for user input
     print("Welcome to Songify! Please make a query below:")
-    print("Remember, names must have dashes instead of spaces")
     complete = False
     while not complete:
         queryToMake = input("Query Here, or type \"exit\" to exit: ")
@@ -168,4 +169,9 @@ def main():
             complete = True
             break
         makeQuery(queryToMake)
+
 main()
+# def testing():
+#     makeQuery("loudness song \"The Real Slim Shady\"")
+#
+# testing()
