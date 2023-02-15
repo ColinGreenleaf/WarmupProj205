@@ -93,6 +93,7 @@ def songSearch(query):
                     newQuery.append(item)
                 newQuery.append("artist")
                 newQuery.append("\"" + db.getDataOfSong(songName, ARTIST_FUNC) + "\"")
+                print("the name of the artist of \"" + songName + "\" is: " + db.getDataOfSong(songName, ARTIST_FUNC))
                 artistSearch(newQuery)
         else:
             print("The field " + nextField + " is an artist field. It does not exist for songs.")
