@@ -71,17 +71,17 @@ def songSearch(query):
 
     try:
         if nextField == "title":
-            title = db.getDataOfSong(songName, TITLE_FUNC)
+            print("The title of the song " + songName + " is: " + db.getDataOfSong(songName, TITLE_FUNC))
         elif nextField == "genre":
-            db.getDataOfSong(songName, GENRE_FUNC)
+            print("The genre of the song " + songName + " is: " + db.getDataOfSong(songName, GENRE_FUNC))
         elif nextField == "year":
             print("The year of the song " + songName + " is: " + str(db.getDataOfSong(songName, YEAR_FUNC)))
         elif nextField == "energy":
-            db.getDataOfSong(songName, ENERGY_FUNC)
+            print("The energy of the song " + songName + " is: " + str(db.getDataOfSong(songName, ENERGY_FUNC)))
         elif nextField == "dance":
-            db.getDataOfSong(songName, DANCE_FUNC)
+            print("The danceability of the song " + songName + " is: " + str(db.getDataOfSong(songName, DANCE_FUNC)))
         elif nextField == "loudness":
-            db.getDataOfSong(songName, LOUD_FUNC)
+            print("The loudness of the song " + songName + " is: " + str(db.getDataOfSong(songName, LOUD_FUNC)))
 
 
         elif nextField == "artist":
@@ -118,11 +118,11 @@ def artistSearch(query):
     nextField = fieldsToSearch.pop()
 
     if nextField == "country":
-        print(db.getDataOfArtist(artistName, COUNTRY_FUNC))
+        print("the country of the artist " + artistName + " is: " + db.getDataOfArtist(artistName, COUNTRY_FUNC))
     elif nextField == "tag":
-        print(db.getDataOfArtist(artistName, TAGS_FUNC))
+        print("the tags of the artist " + artistName + " are: " + db.getDataOfArtist(artistName, TAGS_FUNC))
     elif nextField == "listeners":
-        print(db.getDataOfArtist(artistName, LISTENERS_FUNC))
+        print("the number of listeners of the artist " + artistName + " is: " + str(db.getDataOfArtist(artistName, LISTENERS_FUNC)))
     else:
         print("The field " + nextField + " is a song field. It does not exist for artists.")
 
@@ -130,12 +130,7 @@ def artistSearch(query):
 
 
 
-def main():
-    # Start sequence asking for user input
-    print("Welcome to Songify! Please make a query below:")
-    print("Remember, names must have dashes instead of spaces")
-    query = input("Query Here: ")
-    
+def makeQuery(query):
     # Splitting the query into a list
     queryAsList = query.split(" ")    
     queryLength = len(queryAsList)
@@ -151,5 +146,15 @@ def main():
     elif queryAsList[queryLength - 2] == "artist":
         artistSearch(queryAsList)
     
-
+def main():
+    # Start sequence asking for user input
+    print("Welcome to Songify! Please make a query below:")
+    print("Remember, names must have dashes instead of spaces")
+    complete = False
+    while not complete:
+        queryToMake = input("Query Here, or type \"exit\" to exit: ")
+        if(queryToMake == "exit"):
+            complete = True
+            break
+        makeQuery(queryToMake)
 main()

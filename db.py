@@ -168,6 +168,3 @@ def getAllSongs():
     if conn is not None:
         conn.close()
     # Returning the n
-
-def main():
-    print(getDataOfSong("clocks", ARTIST_FUNC))
