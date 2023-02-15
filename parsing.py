@@ -1,6 +1,6 @@
-
+import db as db
 # These constants represent the different "functions" which can be passed into some of the 
-# getData functions in order to get a specfic field of an artist or song. 
+# getData functions in order to get a specific field of an artist or song.
 
 # Constants for Artist data
 COUNTRY_FUNC = 2
@@ -16,55 +16,17 @@ ENERGY_FUNC = 5
 DANCE_FUNC = 6
 LOUD_FUNC = 7
 
-
-
-def getAllSongsFromArtist(artist):
-    print("All of the songs from " + artist)
-
-# gets one element of data from a song, denoted by the function parameter
-def getDataOfSong(songName, function):
-    print("The data of " + songName + " with " + str(function))
-    if(function == 1):
-        return "artist_of_" + songName
-
-# gets one element of data from an artist, denoted by the function parameter
-def getDataOfArtist(artistName, function):
-    print("The data of " + artistName + " with " + str(function))
-
-# gets all the information of a song
-def getSong(songName):
-    print("All of the info on " + songName)
-
-# gets all the information of an artist
-def getArtist(artistName):
-    print("All of the information on" + artistName)
-
-# gets all the songs of an artist
-def getArtistsLibrary(singerName):
-    print("All of the songs of " + singerName)
-
-
-### Metadata Queries ###
-
-# gets the number of artists in the database
-def getAllArtists():
-    print("The number of artists in the database")
-
-# gets the number of songs in the database
-def getAllSongs():
-    print("The number of artists of a database")
-
 # Checks if all terms used are valid in language and that the name (last word) is enclosed in quotation marks
 # Also ensures second to last word is either artist or song
 def validQuery(query):
-    
     queryLength = len(query)
     if queryLength <= 2:
         print("This query is not long enough. It must be in the format field(s) type \"name\"")
         return False
 
     # Making sure every word is valid
-    validWords = {"country", "tag", "listeners", "song", "artist", "title", "genre", "year", "energy", "dance", "loudness"}
+    validWords = {"country", "tag", "listeners", "song", "artist", "title", "genre", "year", "energy", "dance",
+                  "loudness"}
     for word in query:
         if word[0] != '\"':
             if word not in validWords:
@@ -75,11 +37,11 @@ def validQuery(query):
     if lastWord[0] != '\"':
         print("Please enclose name in quotation marks")
         return False
-    if lastWord[len(lastWord)-1] != '\"':
+    if lastWord[len(lastWord) - 1] != '\"':
         print("Please enclose name in quotation marks")
         return False
-    
-    #Checking second to last word
+
+    # Checking second to last word
     secondToLast = query[queryLength - 2]
     if secondToLast != "song" and secondToLast != "artist":
         print("The term before name should be either song or artist according to search. Please make another query")
@@ -87,55 +49,58 @@ def validQuery(query):
 
     return True
 
+
 def songSearch(query):
     queryLength = len(query)
-    
+
     # Cleaning up songName
     songName = query[queryLength - 1]
     songName = songName.replace("\"", "")
     songName = songName.replace("-", " ")
 
     # Adding the rest of the fields to query
- 
+
     fieldsToSearch = []
     for i in range(queryLength - 2):
         fieldsToSearch.append(query[i])
-    
+
     fieldsLength = len(fieldsToSearch)
 
     # Calling all of the "easy" functions for song
     nextField = fieldsToSearch.pop()
 
     if nextField == "title":
-        title = getDataOfSong(songName, 2)
+        title = db.getDataOfSong(songName, TITLE_FUNC)
     elif nextField == "genre":
-        getDataOfSong(songName, 3)
+        db.getDataOfSong(songName, GENRE_FUNC)
     elif nextField == "year":
-        getDataOfSong(songName, 4)
+        print(songName)
+        db.getDataOfSong(songName, YEAR_FUNC)
     elif nextField == "energy":
-        getDataOfSong(songName, 5)
+        db.getDataOfSong(songName, ENERGY_FUNC)
     elif nextField == "dance":
-        getDataOfSong(songName, 6)
+        db.getDataOfSong(songName, DANCE_FUNC)
     elif nextField == "loudness":
-        getDataOfSong(songName, 7)
-    
-    
+        db.getDataOfSong(songName, LOUD_FUNC)
+
+
     elif nextField == "artist":
         if len(fieldsToSearch) == 0:
-            getDataOfSong(songName, 1)
+            db.getDataOfSong(songName, ARTIST_FUNC)
         else:
             newQuery = []
             for item in fieldsToSearch:
                 newQuery.append(item)
             newQuery.append("artist")
-            newQuery.append("\"" + getDataOfSong(songName, 1) + "\"")
+            newQuery.append("\"" + db.getDataOfSong(songName, ARTIST_FUNC) + "\"")
             artistSearch(newQuery)
     else:
-        print("The field you tried to access does not exist for songs, it must be an artist field")
+        print("The field " + nextField + " does not exist for songs, it must be an artist field")
+
 
 def artistSearch(query):
     queryLength = len(query)
-    
+
     # Getting artist name and cleaning up
     artistName = query[queryLength - 1]
     artistName = artistName.replace("\"", "")
@@ -144,20 +109,20 @@ def artistSearch(query):
     fieldsToSearch = []
     for i in range(queryLength - 2):
         fieldsToSearch.append(query[i])
-    
+
     fieldsLength = len(fieldsToSearch)
 
     # Calling all of the "easy" functions for song
     nextField = fieldsToSearch.pop()
 
     if nextField == "country":
-        getDataOfArtist(artistName, 2)
-    if nextField == "tag":
-        getDataOfArtist(artistName, 3)
-    if nextField == "listeners":
-        getDataOfArtist(artistName, 4)
+        db.getDataOfArtist(artistName, 2)
+    elif nextField == "tag":
+        db.getDataOfArtist(artistName, 3)
+    elif nextField == "listeners":
+        db.getDataOfArtist(artistName, 4)
     else:
-        print("The field you tried to access does not exist for songs, it must be an song field")
+        print("The field " + nextField + " does not exist for artists, it must be a song field")
 
 
 
@@ -188,12 +153,5 @@ def main():
     elif queryAsList[queryLength - 2] == "artist":
         artistSearch(queryAsList)
     
-
-
-    
-
-    
-
-
 
 main()

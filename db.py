@@ -169,21 +169,5 @@ def getAllSongs():
         conn.close()
     # Returning the n
 
-
 def main():
-    # for a song, print the artist, genre, and year
-    testsong = "Back To Black"
-    print("Song: " + testsong)
-    print("Artist: " + getDataOfSong(testsong, ARTIST_FUNC))
-    print("Genre: " + getDataOfSong(testsong, GENRE_FUNC))
-    print("Year: " + str(getDataOfSong(testsong, YEAR_FUNC)))
-    print("Energy: " + str(getDataOfSong(testsong, ENERGY_FUNC)))
-
-    # for the artist of the song, print the country and listeners (cross-table)
-    # the result of getDataOfSong(testsong, ARTIST_FUNC) is used as the parameter for getDataOfArtist
-    print("Artist Country: " + getDataOfArtist(getDataOfSong(testsong, ARTIST_FUNC), COUNTRY_FUNC))
-    print("Artist Listeners: " + str(getDataOfArtist(getDataOfSong(testsong, ARTIST_FUNC), LISTENERS_FUNC)))
-
-
-if __name__ == "__main__":
-    main()
+    print(getDataOfSong("clocks", ARTIST_FUNC))
