@@ -1,20 +1,5 @@
 import sqlite3
 
-# Constants for Artist data
-COUNTRY_FUNC = 2
-TAGS_FUNC = 3
-LISTENERS_FUNC = 4
-
-# Constants for Song data
-ARTIST_FUNC = 1
-TITLE_FUNC = 2
-GENRE_FUNC = 3
-YEAR_FUNC = 4
-ENERGY_FUNC = 5
-DANCE_FUNC = 6
-LOUD_FUNC = 7
-
-
 ### Single-Table Queries ###
 
 # gets one element of data from a song

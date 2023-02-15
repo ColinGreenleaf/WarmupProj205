@@ -85,7 +85,3 @@ def dbMaker(artistFile, songFile):
         c.close()
     if conn is not None:
         conn.close()
-
-if __name__ == "__main__":
-    # MAKE SURE TO DELETE THE DATABASE BEFORE RUNNING THIS FILE, OTHERWISE IT WILL CAUSE ERRORS
-    dbMaker(ARTIST_CSV, SONG_CSV)
