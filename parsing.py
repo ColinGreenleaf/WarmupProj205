@@ -152,10 +152,15 @@ def makeQuery(query):
             print("Fully enclose artist/song names in quotation marks")
             query = input("Query Here: ")
 
-
+    if query != "load data" and query != "metadata songs" and query != "metadata artists" and query != "help":
+        if os.path.exists("topRecords.db") == False:
+            print("The database has not been loaded. Please type \"load data\" to load the database.")
+            return
     if query == "metadata songs":
+        # if database file does not exist, say that
         print(db.getAllSongs())
     elif query == "metadata artists":
+        # if database file does not exist, say that
         print(db.getAllArtists())
     elif query == "help":
         print("--------------------HELP--------------------")
@@ -166,11 +171,10 @@ def makeQuery(query):
         print("to make a query, type the data you want to get, followed by the word song or artist, followed by the name of the song or artist in quotation marks")
         print("the names of songs and artists are Case Sensitive.")
         print("Some example queries:")
-        print("to get the artist of the song \"Photograph\", you would type: artist song \"Photograph\"")
-        print("to get the country of the artist \"Ed Sheeran\", you would type: country artist \"Ed Sheeran\"")
+        print("artist song \"Photograph\": gets the artist of the song \"Photograph\"")
+        print("country artist \"Ed Sheeran\": gets the country of the artist \"Ed Sheeran\"")
         print("you can also get info about the artist of a song without having to type the name of the artist. ")
-        print("For example, to get the country of the artist of the song \"Photograph\", you would type: country artist song \"Photograph\"")
-        print("in that example, the program would first get the artist of the song \"Photograph\", then get the country of that artist")
+        print("country artist song \"Photograph\": gets the country of the artist of the song \"Photograph\"")
         print("to get the number of items in a given database, type either metadata songs OR metadata artists")
         print("to get this help menu again, type help")
         print("to exit the program, type exit")
