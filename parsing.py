@@ -1,5 +1,6 @@
 import shlex
 import init_db as init_db
+import os.path
 
 import db as db
 # These constants represent the different "functions" which can be passed into some of the 
@@ -175,7 +176,11 @@ def makeQuery(query):
         print("--------------------------------------------")
 
     elif query == "load data":
-        init_db.dbMaker(ARTIST_CSV, SONG_CSV)
+        # check if database has already been loaded using os.path.exists
+        if os.path.exists("topRecords.db"):
+            print("Database already loaded")
+        else:
+            init_db.dbMaker(ARTIST_CSV, SONG_CSV)
 
     else:
         # Checking if all of the terms in query are valid. If not, take another query
