@@ -152,7 +152,7 @@ def makeQuery(query):
             print("Fully enclose artist/song names in quotation marks")
             query = input("Query Here: ")
 
-    if query != "load data" and query != "metadata songs" and query != "metadata artists" and query != "help":
+    if query != "load data" and query != "help":
         if os.path.exists("topRecords.db") == False:
             print("The database has not been loaded. Please type \"load data\" to load the database.")
             return
