@@ -142,8 +142,15 @@ def artistSearch(query):
 
 def makeQuery(query):
     # Splitting the query into a list
-    queryAsList = shlex.split(query, posix=False)
-    queryLength = len(queryAsList)
+    while True:
+        try:
+            queryAsList = shlex.split(query, posix=False)
+            queryLength = len(queryAsList)
+            break
+        except:
+            print("Fully enclose artist/song names in quotation marks")
+            query = input("Query Here: ")
+
 
     if query == "metadata songs":
         print(db.getAllSongs())
@@ -178,7 +185,14 @@ def makeQuery(query):
             elif query == "metadata artists":
                 print(db.getAllArtists())
             query = input("Query Here: ")
-            queryAsList = shlex.split(query, posix=False)
+            while True:
+                try:
+                    queryAsList = shlex.split(query, posix=False)
+                    queryLength = len(queryAsList)
+                    break
+                except:
+                    print("Fully enclose artist/song names in quotation marks")
+                    query = input("Query Here: ")
 
         # Determining what kind of query and running appropriate function
         if queryAsList[queryLength - 2] == "song":
