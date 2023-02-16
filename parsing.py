@@ -214,7 +214,10 @@ def main():
         if(queryToMake == "exit"):
             complete = True
             break
-        makeQuery(queryToMake)
+        try:
+            makeQuery(queryToMake)
+        except:
+            print("Artist or song not found. Please try again.")
 
 
 if __name__ == "__main__":
