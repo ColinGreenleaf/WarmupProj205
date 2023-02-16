@@ -164,6 +164,7 @@ def makeQuery(query):
         print("the data that you can get from a song is: title, genre, year, energy, dance, loudness, artist")
         print("the data that you can get from an artist is: country, tags, listeners")
         print("to make a query, type the data you want to get, followed by the word song or artist, followed by the name of the song or artist in quotation marks")
+        print("the names of songs and artists are Case Sensitive.")
         print("Some example queries:")
         print("to get the artist of the song \"Photograph\", you would type: artist song \"Photograph\"")
         print("to get the country of the artist \"Ed Sheeran\", you would type: country artist \"Ed Sheeran\"")
