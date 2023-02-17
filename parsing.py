@@ -150,7 +150,7 @@ def makeQuery(query):
             break
         except:
             print("Fully enclose artist/song names in quotation marks")
-            query = input("Query Here: ")
+            query = input("Query Here (DB QUERY ONLY): ")
 
     if query != "load data" and query != "help":
         if os.path.exists("topRecords.db") == False:
@@ -194,7 +194,8 @@ def makeQuery(query):
                 print(db.getAllSongs())
             elif query == "metadata artists":
                 print(db.getAllArtists())
-            query = input("Query Here: ")
+            query = input("Query Here (DB QUERY ONLY): ")
+
             while True:
                 try:
                     queryAsList = shlex.split(query, posix=False)
@@ -202,7 +203,7 @@ def makeQuery(query):
                     break
                 except:
                     print("Fully enclose artist/song names in quotation marks")
-                    query = input("Query Here: ")
+                    query = input("Query Here (DB QUERY ONLY): ")
 
         # Determining what kind of query and running appropriate function
         if queryAsList[queryLength - 2] == "song":
